@@ -878,8 +878,18 @@
                     <input type="text" id="dogumYeri" class="form-input" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="dogumTarih">Doğum Tarihi</label>
-                    <input type="date" id="dogumTarih" class="form-input" required>
+                    <label class="form-label">Doğum Tarihi</label>
+                    <div style="display:flex;gap:8px;">
+                        <select id="dogumGun" class="form-input" required>
+                            <option value="">Gün</option>
+                        </select>
+                        <select id="dogumAy" class="form-input" required>
+                            <option value="">Ay</option>
+                        </select>
+                        <select id="dogumYil" class="form-input" required>
+                            <option value="">Yıl</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="okul">Mezun Olmak İstediği Okul</label>
@@ -887,6 +897,10 @@
                 </div>
 
                 <div id="liseAlan" style="display:none;">
+                    <div class="form-group">
+                        <label class="form-label" for="oncekiOkul">Daha Önce Bitirdiğiniz Okul</label>
+                        <input type="text" id="oncekiOkul" class="form-input">
+                    </div>
                     <div class="form-group">
                         <label class="form-label" for="mudur">Okul Müdürü <span
                                 style="opacity:0.5;">(opsiyonel)</span></label>
@@ -918,6 +932,13 @@
                         <label class="form-label" for="bolum">Bölüm</label>
                         <input type="text" id="bolum" class="form-input">
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="mezunYili">Mezuniyet Yılı</label>
+                    <select id="mezunYili" class="form-input" required>
+                        <option value="">Seçiniz</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -1075,7 +1096,7 @@
 
         const programSelect = document.getElementById("program"), liseAlan = document.getElementById("liseAlan"), uniAlan = document.getElementById("uniAlan"), tcInput = document.getElementById("tc"), tcError = document.getElementById("tcError"), yorumForm = document.getElementById("yorumForm"), yorumDurum = document.getElementById("yorumDurum"), reviewsGrid = document.querySelector(".reviews-grid"), yorumYildizlar = document.getElementById("yorumYildizlar");
 
-        function formatDateTR(v) { if (!v) return ""; const p = v.split("-"); if (p.length !== 3) return v; const [y, a, g] = p; return `${g}.${a}.${y}` }
+        (function () { var dg = document.getElementById('dogumGun'), da = document.getElementById('dogumAy'), dy = document.getElementById('dogumYil'), my = document.getElementById('mezunYili'); for (var i = 1; i <= 31; i++) { var o = document.createElement('option'); o.value = i < 10 ? '0' + i : '' + i; o.textContent = i; dg.appendChild(o) } var aylar = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık']; for (var i = 0; i < aylar.length; i++) { var o = document.createElement('option'); o.value = i < 9 ? '0' + (i + 1) : '' + (i + 1); o.textContent = aylar[i]; da.appendChild(o) } var suan = new Date().getFullYear(); for (var i = suan; i >= 1940; i--) { var o = document.createElement('option'); o.value = i; o.textContent = i; dy.appendChild(o) } for (var i = suan; i >= 1970; i--) { var o = document.createElement('option'); o.value = i; o.textContent = i; my.appendChild(o) } })();
         function isValidTC(tc) { if (!/^[0-9]{11}$/.test(tc)) return !1; if (tc[0] === "0") return !1; let d = tc.split("").map(Number), sO = d[0] + d[2] + d[4] + d[6] + d[8], sE = d[1] + d[3] + d[5] + d[7], d10 = ((sO * 7) - sE) % 10, d11 = (sO + sE + d10) % 10; return d[9] === d10 && d[10] === d11 }
         function handleTCValidation() { if (!tcInput) return !0; const v = tcInput.value.trim(); if (!v) { tcError.style.display = "none"; tcInput.classList.remove("input-invalid"); return !1 } const ok = isValidTC(v); tcError.style.display = ok ? "none" : "block"; tcInput.classList[ok ? "remove" : "add"]("input-invalid"); return ok }
         if (tcInput) { tcInput.addEventListener("blur", handleTCValidation); tcInput.addEventListener("input", () => { tcInput.value = tcInput.value.replace(/[^0-9]/g, ""); handleTCValidation() }) }
@@ -1084,11 +1105,14 @@
 
         document.getElementById("basvuruForm").addEventListener("submit", function (e) {
             e.preventDefault(); if (!handleTCValidation()) { tcInput.focus(); return }
-            let tc = document.getElementById("tc").value, ad = document.getElementById("ad").value, anaAdi = document.getElementById("anaAdi").value, babaAdi = document.getElementById("babaAdi").value, dogumYeri = document.getElementById("dogumYeri").value, dogumTarih = document.getElementById("dogumTarih").value, dogumTarihF = formatDateTR(dogumTarih), okul = document.getElementById("okul").value, program = document.getElementById("program").value;
+            let tc = document.getElementById("tc").value, ad = document.getElementById("ad").value, anaAdi = document.getElementById("anaAdi").value, babaAdi = document.getElementById("babaAdi").value, dogumYeri = document.getElementById("dogumYeri").value;
+            let dogumTarihF = document.getElementById("dogumGun").value + '.' + document.getElementById("dogumAy").value + '.' + document.getElementById("dogumYil").value;
+            let okul = document.getElementById("okul").value, program = document.getElementById("program").value, mezunYili = document.getElementById("mezunYili").value;
             let mudur = document.getElementById("mudur").value.trim() || "Belirtilmedi", mudurY = document.getElementById("mudurYardimcisi").value.trim() || "Belirtilmedi", dekan = document.getElementById("dekan").value.trim() || "Belirtilmedi", rektor = document.getElementById("rektor").value.trim() || "Belirtilmedi", fakulte = document.getElementById("fakulte").value.trim() || "Belirtilmedi", bolum = document.getElementById("bolum").value.trim() || "Belirtilmedi", mesaj = document.getElementById("mesaj").value || "-";
-            let detay = ""; if (program === "Lise") { detay += "Müdür: " + mudur + "%0A" + "Müdür Yardımcısı: " + mudurY + "%0A" } else if (program === "Lisans" || program === "Önlisans") { detay += "Dekan: " + dekan + "%0A" + "Rektör: " + rektor + "%0A" + "Fakülte: " + fakulte + "%0A" + "Bölüm: " + bolum + "%0A" }
+            let oncekiOkul = document.getElementById("oncekiOkul").value.trim();
+            let detay = ""; if (program === "Lise") { if (oncekiOkul) detay += "Daha Önce Bitirilen Okul: " + oncekiOkul + "%0A"; detay += "Müdür: " + mudur + "%0A" + "Müdür Yardımcısı: " + mudurY + "%0A" } else if (program === "Lisans" || program === "Önlisans") { detay += "Dekan: " + dekan + "%0A" + "Rektör: " + rektor + "%0A" + "Fakülte: " + fakulte + "%0A" + "Bölüm: " + bolum + "%0A" }
             let baslik = "Merhaba, " + program.toLowerCase() + " diploma talebi formunu doldurdum.";
-            let msg = baslik + "%0A%0A" + "T.C.: " + tc + "%0A" + "Ad Soyad: " + ad + "%0A" + "Ana Adı: " + anaAdi + "%0A" + "Baba Adı: " + babaAdi + "%0A" + "Doğum Yeri: " + dogumYeri + "%0A" + "Doğum Tarihi: " + dogumTarihF + "%0A" + "Okul: " + okul + "%0A" + "Program: " + program + "%0A" + detay + "Not: " + mesaj;
+            let msg = baslik + "%0A%0A" + "T.C.: " + tc + "%0A" + "Ad Soyad: " + ad + "%0A" + "Ana Adı: " + anaAdi + "%0A" + "Baba Adı: " + babaAdi + "%0A" + "Doğum Yeri: " + dogumYeri + "%0A" + "Doğum Tarihi: " + dogumTarihF + "%0A" + "Okul: " + okul + "%0A" + "Program: " + program + "%0A" + "Mezuniyet Yılı: " + mezunYili + "%0A" + detay + "Not: " + mesaj;
             window.open("https://api.whatsapp.com/send?phone=905545924569&text=" + msg, "_blank")
         });
 
